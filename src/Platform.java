@@ -1,6 +1,6 @@
 import java.awt.Graphics;
 import java.awt.Color;
-import java.awt.Rectangle;
+//import java.awt.Rectangle;
 
 public class Platform {
     private int x, y, width, height;
@@ -10,6 +10,7 @@ public class Platform {
         this.width = width;
         this.height = height;
     }
+    
     public int getX() {
         return x;
     }
