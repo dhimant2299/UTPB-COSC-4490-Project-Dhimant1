@@ -9,9 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
+//Got it! Now no mistakes.
 
 public class GameWindow extends JPanel implements KeyListener {
     private Ball ball;  
