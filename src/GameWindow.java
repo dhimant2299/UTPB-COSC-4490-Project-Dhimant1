@@ -110,7 +110,7 @@ public class GameWindow extends JPanel implements KeyListener {
             g.drawString("AHHH! SPIKES!!", getWidth() / 2 - 150, getHeight() / 2);
         
             // Smaller Instructions Text
-            g.setFont(new Font("Verdana", Font.BOLD, 28));
+            g.setFont(new Font("Verdana", Font.BOLD, 30));
             g.setColor(Color.BLACK);
             g.drawString("Press ENTER to play again", getWidth() / 2 - 100, getHeight() / 2 + 80);
             return;
