@@ -27,7 +27,7 @@ public class GameWindow extends JPanel implements KeyListener {
 
     // Bounce sound
     public void playBounceSound() {
-        playSound("C:\\Users\\dhima\\OneDrive\\Desktop\\UTPB-COSC-4490-Project-Dhimant1\\src\\soundEffects\\bounced.wav");
+        playSound("C:\\Users\\dhima\\OneDrive\\Desktop\\UTPB-COSC-4490-Project-Dhimant1\\src\\soundEffects\\bouncy.wav");
     }
 
     // Win sound
