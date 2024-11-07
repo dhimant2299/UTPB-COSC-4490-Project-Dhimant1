@@ -61,7 +61,7 @@ public class Ball {
     public void setVelocityY(int velocityY) { this.velocityY = velocityY; }
 
     public void bounce() {
-        double damping = 0.8;
+        double damping = 0.7;
         if (y + radius >= GameWindow.getFloorHeight()) {
             velocityY = -(int) (velocityY * damping);
             y = GameWindow.getFloorHeight() - radius;

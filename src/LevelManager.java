@@ -52,7 +52,7 @@ public class LevelManager {
 
         spikes.add(new Spike(150, screenSize.height - 2, 25));
         spikes.add(new Spike(600, screenSize.height - 340, 25));
-        spikes.add(new Spike(850, screenSize.height - 490, 25));
+        //spikes.add(new Spike(850, screenSize.height - 490, 25));
 
         Goal goal = new Goal(910, screenSize.height - 590, 30, 90);
 
@@ -155,12 +155,56 @@ public class LevelManager {
     
         return new LevelData(platforms, spikes, goal);
     }
+    private LevelData levelSix() {
+        List<Platform> platforms = new ArrayList<>();
+        List<Spike> spikes = new ArrayList<>();
+    
+        // Spike maze at the bottom to discourage falling
+        for (int i = 200; i < screenSize.width - 200; i += 100) {
+            spikes.add(new Spike(i, screenSize.height - 2, 20));
+        }
+    
+        // Starting platform, large and safe
+        platforms.add(new Platform(100, screenSize.height - 200, 200, 20));
+    
+        // First section: a series of narrow platforms with spikes between
+        platforms.add(new Platform(400, screenSize.height - 400, 80, 20));
+        //spikes.add(new Spike(480, screenSize.height - 290, 20));
+        platforms.add(new Platform(600, screenSize.height - 400, 80, 20));
+        spikes.add(new Spike(680, screenSize.height - 390, 20));
+        platforms.add(new Platform(400, screenSize.height - 100, 300, 20));
+    
+        // Second section: an upward path with alternating platforms
+        platforms.add(new Platform(800, screenSize.height - 550, 100, 20));
+        platforms.add(new Platform(950, screenSize.height - 650, 60, 20));
+        platforms.add(new Platform(1100, screenSize.height - 250, 60, 20));
+    
+        // Third section: long jump challenges with gaps and spikes below
+        platforms.add(new Platform(1250, screenSize.height - 350, 120, 20));
+        spikes.add(new Spike(1300, screenSize.height - 520, 20));
+        platforms.add(new Platform(1450, screenSize.height - 400, 120, 20));
+        spikes.add(new Spike(1500, screenSize.height - 620, 20));
+    
+        // Final section: small platforms in a stairway to the goal
+        platforms.add(new Platform(1500, screenSize.height - 350, 60, 20));
+        platforms.add(new Platform(1450, screenSize.height - 550, 60, 20));
+        platforms.add(new Platform(1350, screenSize.height - 250, 60, 20));
+        spikes.add(new Spike(1300, screenSize.height - 2, 20));
+        spikes.add(new Spike(1450, screenSize.height - 2, 20));
+        spikes.add(new Spike(1400, screenSize.height - 2, 20));
+        spikes.add(new Spike(1500, screenSize.height - 2, 20));
+    
+        // Goal placed at the peak
+        Goal goal = new Goal(1400, screenSize.height - 70, 90, 10);
+    
+        return new LevelData(platforms, spikes, goal);
+    }
     
     
    public LevelData loadLevel() {
     switch (currentLevel) {
         case 1:
-            return levelFive();  
+            return levelOne();  
         case 2:
             return levelTwo();  
         case 3:
@@ -168,7 +212,9 @@ public class LevelManager {
         case 4:
             return levelFour();
         case 5:
-            return levelOne();
+            return levelFive();
+        case 6:
+            return levelSix();
         default:
             currentLevel = 1;  
             return levelOne();

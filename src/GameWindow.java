@@ -120,11 +120,11 @@ public class GameWindow extends JPanel implements KeyListener {
             // Text Shadow for "Level Complete!"
             g.setColor(Color.DARK_GRAY);
             g.setFont(new Font("Verdana", Font.BOLD, 56));
-            g.drawString("Level Complete!", getWidth() / 2 - 152, getHeight() / 2 + 2);
+            g.drawString("Level Complete!", getWidth() / 2 - 142, getHeight() / 2 + 2);
         
             // Main Text for "Level Complete!"
             g.setColor(new Color(0, 180, 0)); // A vibrant green color
-            g.drawString("Level Complete!", getWidth() / 2 - 150, getHeight() / 2);
+            g.drawString("Level Complete!", getWidth() / 2 - 140, getHeight() / 2);
         
             return;
         }
