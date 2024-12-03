@@ -195,7 +195,7 @@ public class LevelManager {
         spikes.add(new Spike(1500, screenSize.height - 2, 20));
     
         // Goal placed at the peak
-        Goal goal = new Goal(1400, screenSize.height - 70, 90, 10);
+        Goal goal = new Goal(1400, screenSize.height - 70, 100, 10);
     
         return new LevelData(platforms, spikes, goal);
     }

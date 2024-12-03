@@ -1,14 +1,16 @@
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 
 public class Ball {
-    private int x, y;  
+    private double x, y; // Position as double for smoother movement
     private int radius;
-    private int velocityX, velocityY;
-    private int gravity = 1;
-    private double friction = 0.5;
+    private double velocityX, velocityY; // Velocity as double
+    private final int gravity = 900; // Gravity factor
+    private final double friction = 0.95; // Friction coefficient for smoother deceleration
+    private final int stopThreshold = 5; // Threshold for minimal velocity to stop the ball
     public boolean onGround = true;
     private Image ballImage;
 
@@ -23,17 +25,18 @@ public class Ball {
 
     private void loadImage() {
         try {
-            ballImage = ImageIO.read(getClass().getResource("./ball_spritesheet.png"));  
+            ballImage = ImageIO.read(new File("src/ball_spritesheet.png")); // Adjust to actual path
         } catch (IOException e) {
+            System.err.println("Failed to load ball image.");
             e.printStackTrace();
         }
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public int getX() { return (int) x; }
+    public int getY() { return (int) y; }
     public int getRadius() { return radius; }
-    public int getVelocityX() { return velocityX; }
-    public int getVelocityY() { return velocityY; }
+    public int getVelocityX() { return (int) velocityX; }
+    public int getVelocityY() { return (int) velocityY; }
 
     public void setPosition(int x, int y) {
         this.x = x;
@@ -44,24 +47,33 @@ public class Ball {
         return onGround;
     }
 
-    public void updatePosition() {
-        velocityY += gravity;
+    public void updatePosition(double deltaTime) {
+        // Apply gravity
+        velocityY += gravity * deltaTime;
 
+        // Apply friction if no key is pressed
         if (!GameWindow.isLeftPressed && !GameWindow.isRightPressed) {
             velocityX *= friction;
-            if (Math.abs(velocityX) < 0.5) {
-                velocityX = 0;
+            if (Math.abs(velocityX) < stopThreshold) {
+                velocityX = 0; // Stop completely if velocity is very small
             }
         }
-        x += velocityX;
-        y += velocityY;
+
+        // Update ball position
+        x += velocityX * deltaTime;
+        y += velocityY * deltaTime;
     }
 
-    public void setVelocityX(int velocityX) { this.velocityX = velocityX; }
-    public void setVelocityY(int velocityY) { this.velocityY = velocityY; }
+    public void setVelocityX(int velocityX) { 
+        this.velocityX = velocityX; 
+    }
+
+    public void setVelocityY(int velocityY) { 
+        this.velocityY = velocityY; 
+    }
 
     public void bounce() {
-        double damping = 0.7;
+        double damping = 0.5; // Damping factor for bounce effect
         if (y + radius >= GameWindow.getFloorHeight()) {
             velocityY = -(int) (velocityY * damping);
             y = GameWindow.getFloorHeight() - radius;
@@ -81,9 +93,40 @@ public class Ball {
         }
     }
 
+    public boolean intersectsPlatform(Platform platform) {
+        // Check horizontal and vertical overlap
+        return x + radius > platform.getX() &&
+               x - radius < platform.getX() + platform.getWidth() &&
+               y + radius > platform.getY() &&
+               y - radius < platform.getY() + platform.getHeight();
+    }
+
+    public void handlePlatformCollision(Platform platform) {
+        // Top collision
+        if (y + radius >= platform.getY() &&
+            y < platform.getY() &&
+            velocityY > 0) {
+            y = platform.getY() - radius; // Adjust position to sit on top of the platform
+            velocityY = -velocityY * 0.8; // Bounce effect with damping
+            onGround = true;
+        }
+        // Bottom collision
+        else if (y - radius <= platform.getY() + platform.getHeight() &&
+                 y > platform.getY() + platform.getHeight() &&
+                 velocityY < 0) {
+            y = platform.getY() + platform.getHeight() + radius; // Adjust position below the platform
+            velocityY = -velocityY * 0.8;
+        }
+        // Side collisions can be added here if needed
+    }
+
     public void draw(Graphics g) {
         if (ballImage != null) {
-            g.drawImage(ballImage, x - radius, y - radius, 2 * radius, 2 * radius, null);
+            g.drawImage(ballImage, (int) x - radius, (int) y - radius, 2 * radius, 2 * radius, null);
+        } else {
+            // Fallback: Draw a simple circle if the image is not loaded
+            g.setColor(java.awt.Color.RED);
+            g.fillOval((int) x - radius, (int) y - radius, 2 * radius, 2 * radius);
         }
     }
 }
